@@ -10,7 +10,8 @@
     "proc": "NODE_PATH=. pm2 start --no-daemon",
     "start": "pm2 start --no-daemon",
     "start:dev": "nodemon",
-    "lint": "tslint --project ."
+    "lint": "tslint --project .",
+    "gen:types": "graphql-schema-typescript generate-ts src/schema/schema.graphql --output src/types/schema.ts --typePrefix="
   },
   "repository": {
     "type": "git",
@@ -77,6 +78,7 @@
     "@types/uuid": "^3.4.4",
     "ava": "^1.2.1",
     "ava-ts": "^0.25.2",
+    "graphql-schema-typescript": "^1.2.9",
     "nodemon": "^1.18.10",
     "prettier": "^1.15.3",
     "sinon": "^7.2.3",

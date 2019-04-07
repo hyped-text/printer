@@ -5,7 +5,6 @@ import createLogger from 'hyped-logger';
 import upload from './upload';
 import error from './error';
 import notFound from './notFound';
-import { routes, allowedMethods } from '../routes';
 import { schema } from '../schema';
 
 export default [
@@ -13,8 +12,6 @@ export default [
   loggerWinston(createLogger()),
   bodyParser(),
   upload(),
-  routes(),
-  allowedMethods(),
   execute({ schema }),
   error(),
   notFound(),

@@ -1,1 +1,0 @@
-export { formatController } from './formatController';
