@@ -1,0 +1,67 @@
+scalar Upload
+
+enum ElementType {
+  # Front elements
+  HALF_TITLE
+  FRONTISPIECE
+  TITLE_PAGE
+  DEDICATION
+  EPIGRAPH
+  TABLE_OF_CONTENTS
+  FOREWORD
+  PREFACE
+  ACKNOWLEDGMENTS
+  INTRODUCTION
+  PROLOGUE
+
+  # Body elements
+  VOLUME
+  BOOK
+  PART
+  SECTION
+  CHAPTER
+
+  # Back elements
+  EPILOGUE
+  AFTERWORD
+  CONCLUSION
+  POSTSCRIPT
+  APPENDIX
+  GLOSSARY
+  BIBLIOGRAPHY
+  INDEX
+  COLOPHON
+  POSTFACE
+}
+
+interface Element {
+  id: ID!
+  type: ElementType!
+  index: Int!
+  text: String!
+  title: String
+  parent: Element
+}
+
+type TableOfContentsElement {
+  title: String!
+  id: ID!
+}
+
+type TableOfContents implements Element {
+  id: ID!
+  type: ElementType!
+  index: Int!
+  text: String!
+  title: String
+  parent: Element
+  contents: [TableOfContentsElement]
+}
+
+type Book {
+  elements: [Element]
+}
+
+type Query {
+  print(file: Upload, url: String): Book
+}
