@@ -31,11 +31,12 @@ export interface Element {
 }
 
 /** Use this to resolve interface type Element */
-export type PossibleElementTypeNames = 'TableOfContents';
+export type PossibleElementTypeNames = 'TableOfContents' | 'Chapter';
 
 export interface ElementNameMap {
   Element: Element;
   TableOfContents: TableOfContents;
+  Chapter: Chapter;
 }
 
 export enum ElementType {
@@ -82,6 +83,15 @@ export interface TableOfContents extends Element {
   contents?: Array<TableOfContentsElement | null>;
 }
 
+export interface Chapter extends Element {
+  id: string;
+  type: ElementType;
+  index: number;
+  text: string;
+  title?: string;
+  parent?: Element;
+}
+
 /*********************************
  *                               *
  *         TYPE RESOLVERS        *
@@ -102,6 +112,7 @@ export interface Resolver {
   
   TableOfContentsElement?: TableOfContentsElementTypeResolver;
   TableOfContents?: TableOfContentsTypeResolver;
+  Chapter?: ChapterTypeResolver;
 }
 export interface QueryTypeResolver<TParent = any> {
   print?: QueryToPrintResolver<TParent>;
@@ -124,7 +135,7 @@ export interface BookToElementsResolver<TParent = any, TResult = any> {
 }
 
 export interface ElementTypeResolver<TParent = any> {
-  (parent: TParent, context: any, info: GraphQLResolveInfo): 'TableOfContents';
+  (parent: TParent, context: any, info: GraphQLResolveInfo): 'TableOfContents' | 'Chapter';
 }
 export interface TableOfContentsElementTypeResolver<TParent = any> {
   title?: TableOfContentsElementToTitleResolver<TParent>;
@@ -174,5 +185,38 @@ export interface TableOfContentsToParentResolver<TParent = any, TResult = any> {
 }
 
 export interface TableOfContentsToContentsResolver<TParent = any, TResult = any> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface ChapterTypeResolver<TParent = any> {
+  id?: ChapterToIdResolver<TParent>;
+  type?: ChapterToTypeResolver<TParent>;
+  index?: ChapterToIndexResolver<TParent>;
+  text?: ChapterToTextResolver<TParent>;
+  title?: ChapterToTitleResolver<TParent>;
+  parent?: ChapterToParentResolver<TParent>;
+}
+
+export interface ChapterToIdResolver<TParent = any, TResult = any> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface ChapterToTypeResolver<TParent = any, TResult = any> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface ChapterToIndexResolver<TParent = any, TResult = any> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface ChapterToTextResolver<TParent = any, TResult = any> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface ChapterToTitleResolver<TParent = any, TResult = any> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface ChapterToParentResolver<TParent = any, TResult = any> {
   (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
 }

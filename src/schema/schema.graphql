@@ -58,6 +58,15 @@ type TableOfContents implements Element {
   contents: [TableOfContentsElement]
 }
 
+type Chapter implements Element {
+  id: ID!
+  type: ElementType!
+  index: Int!
+  text: String!
+  title: String
+  parent: Element
+}
+
 type Book {
   elements: [Element]
 }

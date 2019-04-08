@@ -90,7 +90,7 @@ export default {
         return 'TableOfContents';
       }
 
-      return null;
+      return 'Chapter';
     },
   },
   Query: {

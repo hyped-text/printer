@@ -6,3 +6,4 @@ export interface StoredFile {
   id: string
   path: string
 }
+

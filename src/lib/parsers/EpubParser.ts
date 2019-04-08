@@ -1,6 +1,20 @@
-import { Parser } from '../../types';
+import EPub from 'epub';
 import uuid from 'uuid/v4';
-const EPub = require('epub');
+import { promisify } from 'util';
+import { Parser, Element, ElementType, TableOfContents } from '../../types';
+
+interface TocElement {
+  level: number;
+  order: number;
+  title: string;
+  id: string;
+  href?: string;
+}
+
+interface FlowElement {
+  id: string;
+  title: string;
+}
 
 export class EpubParser implements Parser {
   async parse(path: string) {
@@ -8,24 +22,39 @@ export class EpubParser implements Parser {
 
     epub.parse();
 
-    return new Promise(resolve => epub.on('end', () => {
-      console.log(Object.keys(epub));
-      const tocElements = epub.toc.map(({ id, title }: any) => ({ id, title }));
+    return new Promise(resolve =>
+      epub.on('end', async () => {
+        const tocElements = epub.toc.map(({ id, title }: TocElement) => ({ id, title }));
 
-      const toc = {
-        id: uuid(),
-        type: 'TABLE_OF_CONTENTS',
-        index: 0,
-        text: '',
-        title: null,
-        parent: null,
-        contents: tocElements
-      };
+        const toc: TableOfContents = {
+          id: uuid(),
+          type: ElementType.TABLE_OF_CONTENTS,
+          index: 0,
+          text: '',
+          contents: tocElements,
+        };
 
-      resolve({
-        elements: [toc]
+        const flow: FlowElement[] = epub.flow as FlowElement[];
+
+        const chapters: Element[] = await Promise.all(
+          flow.map(
+            async ({ id, title }: FlowElement, index: number): Promise<Element> => ({
+              id,
+              title,
+              index,
+              type: ElementType.CHAPTER,
+              text: await promisify(epub.getChapterRaw.bind(epub))(id),
+            })
+          )
+        );
+
+        const elements: Element[] = [toc].concat(chapters);
+
+        resolve({
+          elements,
+        });
       })
-    }));
+    );
   }
 }
 
