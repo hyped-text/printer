@@ -4,7 +4,7 @@
   "description": "Prints all the stuff on the pages, converts various e-book formats, structurize the book via parts and chapters and all other typographer work",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc && cp src/config/config.json dist/config",
+    "build": "tsc --skipLibCheck --project . && cp src/config/config.json dist/config",
     "test": "ava-ts",
     "test:watch": "npm test -- --watch",
     "proc": "NODE_PATH=. pm2 start --no-daemon",
@@ -71,7 +71,7 @@
     "@types/lowdb": "^1.0.7",
     "@types/mkdirp": "^0.5.2",
     "@types/nconf": "^0.10.0",
-    "@types/node": "^10.12.21",
+    "@types/node": "^10.14.4",
     "@types/node-fetch": "^2.1.7",
     "@types/ramda": "^0.25.48",
     "@types/sinon": "^7.0.5",
@@ -83,6 +83,6 @@
     "prettier": "^1.15.3",
     "sinon": "^7.2.3",
     "ts-node": "^8.0.2",
-    "typescript": "^3.3.1"
+    "typescript": "^3.4.1"
   }
 }

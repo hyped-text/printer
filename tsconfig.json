@@ -1,18 +1,21 @@
 {
+  "incremental": true,
+  "skipLibCheck": true,
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
     "lib": ["es2015", "es2017", "es2018", "dom", "esnext.asynciterable"],
     "allowJs": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "outDir": "dist",
+    "rootDir": "src",
     "strict": true,
     "strictPropertyInitialization": false,
     "typeRoots": ["node_modules/@types", "src/typings"],
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "locale": "ru"
   },
-  "include": ["./src"],
-  "exclude": ["**/__tests__/**/*"]
+  "include": ["src"],
+  "exclude": ["node_modules", "**/__tests__/**/*"]
 }
